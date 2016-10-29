@@ -1,0 +1,182 @@
+.toptal-social-share-wrapper div {
+	float: left;
+	margin-right: 10px;
+}
+
+.toptal-social-share-wrapper div.facebook {
+	background-color: #37589b;
+}
+
+.toptal-social-share-wrapper div.facebook:hover {
+    color: #37589b !important;
+    background-color: #fff !important;
+    border-color: #37589b;
+}
+
+.toptal-social-share-wrapper div.twitter {
+	background-color: #46d4fe;
+}
+
+.toptal-social-share-wrapper div.twitter:hover {
+    color: #46d4fe !important;
+    background-color: #fff !important;
+    border-color: #46d4fe;
+}
+
+.toptal-social-share-wrapper div.linkedin {
+	background-color: #419cca;
+}
+
+.toptal-social-share-wrapper div.linkedin:hover {
+    color: #419cca !important;
+    background-color: #fff !important;
+    border-color: #419cca;
+}
+
+.toptal-social-share-wrapper div.pinterest {
+	background-color: #cb2027;
+}
+
+.toptal-social-share-wrapper div.pinterest:hover {
+    color: #cb2027 !important;
+    background-color: #fff !important;
+    border-color: #cb2027;
+}
+
+.toptal-social-share-wrapper div.google-plus {
+	background-color: #de5a49;
+}
+
+.toptal-social-share-wrapper div.google-plus:hover {
+    color: #de5a49 !important;
+    background-color: #fff !important;
+    border-color: #de5a49;
+}
+
+.toptal-social-share-wrapper div.whatsapp {
+	background-color: #25d366;
+}
+
+.toptal-social-share-wrapper div.whatsapp:hover {
+    color: #25d366 !important;
+    background-color: #fff !important;
+    border-color: #25d366;
+}
+
+.toptal-social-share-wrapper div {
+	padding: 5px;
+	color: #fff;
+	border: 1px solid transparent;
+	transition: all 0.2s ease-in-out;
+	font-weight: normal;
+}
+
+.toptal-social-share-wrapper div a {
+	text-decoration: none;
+	border: none;
+	color: inherit;
+}
+
+.toptal-social-share-wrapper div a:hover {
+	color: inherit;
+}
+
+.toptal-social-share-wrapper .small {
+	font-size: 13px;
+}
+
+.toptal-social-share-wrapper .small a {
+    padding: 5px 10px !important;
+}
+
+.toptal-social-share-wrapper .medium {
+	font-size: 15px;
+}
+
+.toptal-social-share-wrapper .medium a {
+    padding: 10px 20px !important;
+}
+
+.toptal-social-share-wrapper .large {
+    font-size: 20px;
+}
+
+.toptal-social-share-wrapper .large a {
+    padding: 15px 30px !important;
+}
+
+.clear {
+	clear: left;
+}
+
+.toptal-social-share-wrapper.float-area {
+    position: fixed;
+    max-width: 200px;
+    height: 100px;
+    left: 200px;
+    top: 40%;
+    z-index: 999;
+}
+
+.toptal-social-share-wrapper.float-area.just_icon {
+	max-width: 88px;
+}
+
+.toptal-social-share-wrapper.float-area div {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+span[class*="fa-"]:not(.icon) {
+    padding-right: 10px;
+}
+
+@media (max-width: 1280px) {
+	.toptal-social-share-wrapper .large {
+		margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 1130px) {
+	.toptal-social-share-wrapper .large a {
+	    min-width: 170px;
+	    display: block;
+	}
+}
+
+@media (max-width: 640px) {
+	.toptal-social-share-wrapper:not(.just_icon) .medium {
+	    font-size: 15px;
+	    width: calc(33% - 10px);
+	    margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 440px) {
+	.toptal-social-share-wrapper:not(.just_icon) .medium {
+		width: calc(50% - 10px);
+	}
+
+	.toptal-social-share-wrapper:not(.just_icon) .large a {
+		width: calc(50% - 10px);
+	}
+
+	.toptal-social-share-wrapper.just_icon .medium {
+		margin-bottom: 10px;
+	}
+
+	.toptal-social-share-wrapper.just_icon .medium a {
+	    min-width: 54px;
+	    display: block;
+	}
+
+	.toptal-social-share-wrapper .large {
+	    width: calc(50% - 10px);
+	    min-height: 92px;
+	}
+}
+@media (min-width: 440px){
+	.toptal-social-share-wrapper .whatsapp{
+	    display: none !important;
+	}
+}
