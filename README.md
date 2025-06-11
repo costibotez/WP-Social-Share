@@ -33,3 +33,7 @@ The plugin code is located in `toptal-social-share.php` and assets under the `as
 ## License
 
 MIT
+
+## Buy Me a Coffee
+
+If you find this plugin useful, consider [buying me a coffee](https://buymeacoffee.com/costinbotez).
