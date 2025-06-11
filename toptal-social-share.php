@@ -365,7 +365,6 @@ class TopTal_Social_Share {
    */
 	function toptal_add_social_share_icons($content) {
   	global $post;
-    // echo '</pre>'; print_r(get_post_types()); exit;
     $html = '';
 
     if($this->pre_validate($content, $post->ID) !== TRUE) return $content;
