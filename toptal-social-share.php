@@ -620,125 +620,17 @@ class TopTal_Social_Share {
   }
 
   function toptal_float_area() {
-    $just_icon  = (intval(get_option('toptal_ss_appearance')) == 1) ? 'just_icon' : '';
-    // $float_area = (intval(get_option('toptal_ss_left_area')) == 1) ? 'float_area' : '';
-    $html = "";
-    if(intval(get_option('toptal_ss_left_area') == 1)) {
-      $html = '<div class="toptal-social-share-wrapper float-area ' . $just_icon . '">';
-      $url = esc_url(get_permalink($post_id));
-
-      $size = 'small';
-
-      $facebook_style  = "";
-      $twitter_style   = "";
-      $linkedin_style  = "";
-      $pinterest_style = "";
-      $google_style    = "";
-      $whatsapp_style  = "";
-
-      if(get_option('toptal_ss_color') == 0) {
-        $facebook_style  = 'style="background-color:' . get_option('toptal_ss_facebook_bk_color') . '; color:' . get_option('toptal_ss_facebook_color') . '"';
-        $twitter_style   = 'style="background-color:' . get_option('toptal_ss_twitter_bk_color') . '; color:' . get_option('toptal_ss_twitter_color') . '"';
-        $linkedin_style  = 'style="background-color:' . get_option('toptal_ss_linkedin_bk_color') . '; color:' . get_option('toptal_ss_linkedin_color') . '"';
-        $pinterest_style = 'style="background-color:' . get_option('toptal_ss_pinterest_bk_color') . '; color:' . get_option('toptal_ss_pinterest_color') . '"';
-        $google_style    = 'style="background-color:' . get_option('toptal_ss_google_bk_color') . '; color:' . get_option('toptal_ss_google_color') . '"';
-        $whatsapp_style  = 'style="background-color:' . get_option('toptal_ss_whatsapp_bk_color') . '; color:' . get_option('toptal_ss_whatsapp_color') . '"';
-      }
-
-      $style = intval(get_option('toptal_ss_appearance'));
-      switch ($style) {
-        case 1:
-          $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook icon"></span></a>';
-          $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter icon"></span></a>';
-          $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a>';
-          $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a>';
-          $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '"><span class="fa fa-google-plus icon"></span></a>';
-          $whatsapp_text  = '<a target="_blank" href="http://www.google.com/shareArticle?url=' . $url . '"><span class="fa fa-whatsapp icon"></span></a>';
-          break;
-        case 2:
-          $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a>';
-          $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '">Twitter</a>';
-          $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a>';
-          $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a>';
-          $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '">Google+</a>';
-          $whatsapp_text  = '<a target="_blank" href="whatsapp://send?text=' . $url . '">WhatsApp</a>';
-          break;
-        case 3:
-          $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a>';
-          $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a>';
-          $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a>';
-          $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a>';
-          $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '"><span class="fa fa-google-plus"></span>Google+</a>';
-          $whatsapp_text  = '<a target="_blank" href="whatsapp://send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a>';
-          break;
-      }
-
-      if(count($atts)==0) {
-        switch (get_option('toptal_ss_size')) {
-          case 'Small':
-            $size = 'small';
-            break;
-          case 'Medium':
-            $size = 'medium';
-            break;
-          case 'Large':
-            $size = 'large';
-            break;
-        }
-        if(get_option('toptal_ss_facebook') == 1)
-          $html .= '<div class="facebook ' . $size . '" ' . $facebook_style . '>' . $facebook_text . '</div>';
-
-        if(get_option('toptal_ss_twitter') == 1)
-          $html .= '<div class="twitter ' . $size . '" ' . $twitter_style . '>' . $twitter_text . '</div>';
-
-        if(get_option('toptal_ss_linkedin') == 1)
-          $html .= '<div class="linkedin ' . $size . '" ' . $linkedin_style .  '>' . $linkedin_text . '</div>';
-
-        if(get_option('toptal_ss_pinterest') == 1)
-          $html .= '<div class="pinterest ' . $size . '" ' . $pinterest_style . '>' . $pinterest_text . '</div>';
-
-        if(get_option('toptal_ss_google') == 1)
-          $html .= '<div class="google-plus ' . $size . '"' . $google_style . '>' . $google_text . '</div>';
-
-        if(get_option('toptal_ss_whatsapp') == 1 && $this->toptal_ss_is_mobile())
-          $html .= '<div class="whatsapp ' . $size . '"' . $whatsapp_style .  '>' . $whatsapp_text . '</div>';
-
-        $html .= '<div class="clear"></div></div><div class="clear"></div>';
-
-      } else {
-        switch ($atts['size']) {
-          case 'small':
-            $size = 'small';
-            break;
-          case 'medium':
-            $size = 'medium';
-            break;
-          case 'large':
-            $size = 'large';
-            break;
-        }
-
-        if($atts['facebook'] == 1)
-          $html .= '<div class="facebook ' . $size . '"' . $facebook_style . '>' . $facebook_text . '</div>';
-
-        if($atts['twitter'] == 1)
-          $html .= '<div class="twitter ' . $size . '"' . $twitter_style . '>' . $twitter_text . '</div>';
-
-        if($atts['linkedin'] == 1)
-          $html .= '<div class="linkedin ' . $size . '"' . $linkedin_style .  '>' . $linkedin_text . '</div>';
-
-        if($atts['pinterest'] == 1)
-          $html .= '<div class="pinterest ' . $size . '"' . $pinterest_style . '>' . $pinterest_text . '</div>';
-
-        if($atts['google'] == 1)
-          $html .= '<div class="google-plus ' . $size . '"' . $google_style . '>' . $google_text . '</div>';
-
-        if($atts['whatsapp'] == 1 && $this->toptal_ss_is_mobile())
-          $html .= '<div class="whatsapp ' . $size . '"' . $whatsapp_style .  '>' . $whatsapp_text . '</div>';
-
-        $html .= '<div class="clear"></div></div><div class="clear"></div>';
-      }
+    if (intval(get_option('toptal_ss_left_area')) !== 1) {
+      return;
     }
+
+    $html = $this->toptal_social_html(get_the_ID());
+    $html = str_replace(
+      'toptal-social-share-wrapper',
+      'toptal-social-share-wrapper float-area',
+      $html
+    );
+
     echo $html;
   }
 
