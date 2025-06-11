@@ -69,7 +69,13 @@
 }
 
 .toptal-social-share-wrapper div a:hover {
-	color: inherit;
+        color: inherit;
+}
+
+.toptal-social-share-wrapper .share-count {
+    margin-left: 4px;
+    font-size: 0.9em;
+    color: #fff;
 }
 
 .toptal-social-share-wrapper .small {
