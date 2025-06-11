@@ -29,7 +29,7 @@ class TopTal_Social_Share {
     add_filter('plugin_action_links_' . TOPTAL_SS_PLUGIN_PATH, array($this, 'add_action_links' ));
     add_shortcode('toptal_ss',           array($this, 'toptal_ss_cb'));
     add_action('wp_footer',              array($this, 'toptal_float_area'), 10);
-    register_uninstall_hook(__FILE__,    array($this, 'toptal_plugin_uninstall'));
+    register_uninstall_hook(__FILE__,    array('TopTal_Social_Share', 'toptal_plugin_uninstall'));
 	}
 
   function toptal_add_color_picker( $hook ) {
@@ -634,7 +634,7 @@ class TopTal_Social_Share {
     echo $html;
   }
 
-  function toptal_plugin_uninstall() {
+  static function toptal_plugin_uninstall() {
     // GENERAL SETTINGS
     delete_option('toptal_ss_facebook');
     delete_option('toptal_ss_twitter');
