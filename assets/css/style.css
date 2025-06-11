@@ -43,15 +43,6 @@
     border-color: #cb2027;
 }
 
-.toptal-social-share-wrapper div.google-plus {
-	background-color: #de5a49;
-}
-
-.toptal-social-share-wrapper div.google-plus:hover {
-    color: #de5a49 !important;
-    background-color: #fff !important;
-    border-color: #de5a49;
-}
 
 .toptal-social-share-wrapper div.whatsapp {
 	background-color: #25d366;

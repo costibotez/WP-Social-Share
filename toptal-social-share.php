@@ -89,7 +89,6 @@ class TopTal_Social_Share {
   	add_settings_field('toptal_ss_twitter',  	__('Display Twitter share button?', 'toptal-ss'), 	array($this, 'toptal_ss_twitter_checkbox'), 'toptal_social_share', 'toptal_ss_general_section');
   	add_settings_field('toptal_ss_linkedin', 	__('Display LinkedIn share button?', 'toptal-ss'), 	array($this, 'toptal_ss_linkedin_checkbox'), 'toptal_social_share', 'toptal_ss_general_section');
   	add_settings_field('toptal_ss_pinterest', __('Display Pinterest share button?', 'toptal-ss'), array($this, 'toptal_ss_pinterest_checkbox'), 'toptal_social_share', 'toptal_ss_general_section');
-  	add_settings_field('toptal_ss_google', 	__('Display Google+ share button?', 'toptal-ss'), 	array($this, 'toptal_ss_google_checkbox'), 'toptal_social_share', 'toptal_ss_general_section');
     add_settings_field('toptal_ss_whatsapp',  __('Display WhatsApp share button? (mobile only)', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_checkbox'), 'toptal_social_share', 'toptal_ss_general_section');
 
     // VISIBILITY SETTINGS
@@ -120,9 +119,6 @@ class TopTal_Social_Share {
     //   add_settings_field('toptal_ss_pinterest_order', __('Pinterest', 'toptal-ss'), array($this, 'toptal_ss_pinterest_order'), 'toptal_social_share', 'toptal_ss_order_section');
     //   register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_order', 'intval');
     // }
-    // if(get_option('toptal_ss_google') == 1) {
-    //   add_settings_field('toptal_ss_google_order',  __('Google+', 'toptal-ss'),   array($this, 'toptal_ss_google_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_google_order', 'intval');
     // }
     // if(get_option('toptal_ss_whatsapp') == 1) {
     //   add_settings_field('toptal_ss_whatsapp_order',  __('WhatsApp (mobile only)', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_order'), 'toptal_social_share', 'toptal_ss_order_section');
@@ -164,11 +160,6 @@ class TopTal_Social_Share {
         register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_bk_color');
         register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_color');
       }
-      if(get_option('toptal_ss_google') == 1) {
-        add_settings_field('toptal_ss_google_bk_color',  __('Google+ Background Color:', 'toptal-ss'),   array($this, 'toptal_ss_google_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        add_settings_field('toptal_ss_google_color',  __('Google+ Font Color:', 'toptal-ss'),   array($this, 'toptal_ss_google_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_google_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_google_color');
       }
       if(get_option('toptal_ss_whatsapp') == 1) {
         add_settings_field('toptal_ss_whatsapp_bk_color',  __('WhatsApp Background Color (mobile only):', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
@@ -183,7 +174,6 @@ class TopTal_Social_Share {
   	register_setting('toptal_ss_settings_all', 'toptal_ss_twitter', 'intval');
   	register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin', 'intval');
   	register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest', 'intval');
-  	register_setting('toptal_ss_settings_all', 'toptal_ss_google', 'intval');
     register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp', 'intval');
 
     // VISIBILITY SETTINGS
@@ -228,8 +218,6 @@ class TopTal_Social_Share {
  		<?php
 	}
 
-	function toptal_ss_google_checkbox() { ?>
-    <input type="checkbox" name="toptal_ss_google" value="1" <?php checked(1, get_option('toptal_ss_google'), true); ?> /> <?php _e('Check for Yes', 'toptal-ss'); ?>
  		<?php
 	}
 
@@ -317,8 +305,6 @@ class TopTal_Social_Share {
     <?php
   }
 
-  function toptal_ss_google_colorpicker() { ?>
-    <input type="text" name="toptal_ss_google_color" value="<?php echo get_option('toptal_ss_google_color'); ?>" class="color-field">
     <?php
   }
 
@@ -347,8 +333,6 @@ class TopTal_Social_Share {
     <?php
   }
 
-  function toptal_ss_google_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_google_bk_color" value="<?php echo get_option('toptal_ss_google_bk_color'); ?>" class="color-field">
     <?php
   }
 
@@ -464,7 +448,6 @@ class TopTal_Social_Share {
     $twitter_style   = "";
     $linkedin_style  = "";
     $pinterest_style = "";
-    $google_style    = "";
     $whatsapp_style  = "";
 
     if(get_option('toptal_ss_color') == 0) {
@@ -472,7 +455,6 @@ class TopTal_Social_Share {
       $twitter_style   = 'style="background-color:' . get_option('toptal_ss_twitter_bk_color') . '; color:' . get_option('toptal_ss_twitter_color') . '"';
       $linkedin_style  = 'style="background-color:' . get_option('toptal_ss_linkedin_bk_color') . '; color:' . get_option('toptal_ss_linkedin_color') . '"';
       $pinterest_style = 'style="background-color:' . get_option('toptal_ss_pinterest_bk_color') . '; color:' . get_option('toptal_ss_pinterest_color') . '"';
-      $google_style    = 'style="background-color:' . get_option('toptal_ss_google_bk_color') . '; color:' . get_option('toptal_ss_google_color') . '"';
       $whatsapp_style  = 'style="background-color:' . get_option('toptal_ss_whatsapp_bk_color') . '; color:' . get_option('toptal_ss_whatsapp_color') . '"';
     }
 
@@ -483,24 +465,20 @@ class TopTal_Social_Share {
         $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter icon"></span></a>';
         $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a>';
         $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a>';
-        $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '"><span class="fa fa-google-plus icon"></span></a>';
-        $whatsapp_text  = '<a target="_blank" href="http://www.google.com/shareArticle?url=' . $url . '"><span class="fa fa-whatsapp icon"></span></a>';
         break;
       case 2:
         $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a>';
         $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '">Twitter</a>';
         $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a>';
         $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a>';
-        $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '">Google+</a>';
-        $whatsapp_text  = '<a target="_blank" href="whatsapp://send?text=' . $url . '">WhatsApp</a>';
+        $whatsapp_text  = '<a target="_blank" href="https://api.whatsapp.com/send?text=' . $url . '">WhatsApp</a>';
         break;
       case 3:
         $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a>';
         $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a>';
         $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a>';
         $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a>';
-        $google_text    = '<a target="_blank" href="https://plus.google.com/share?url=' . $url . '"><span class="fa fa-google-plus"></span>Google+</a>';
-        $whatsapp_text  = '<a target="_blank" href="whatsapp://send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a>';
+        $whatsapp_text  = '<a target="_blank" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a>';
         break;
     }
 
@@ -528,8 +506,6 @@ class TopTal_Social_Share {
       if(get_option('toptal_ss_pinterest') == 1)
         $html .= '<div class="pinterest ' . $size . '" ' . $pinterest_style . '>' . $pinterest_text . '</div>';
 
-      if(get_option('toptal_ss_google') == 1)
-        $html .= '<div class="google-plus ' . $size . '"' . $google_style . '>' . $google_text . '</div>';
 
       if(get_option('toptal_ss_whatsapp') == 1 && $this->toptal_ss_is_mobile())
         $html .= '<div class="whatsapp ' . $size . '"' . $whatsapp_style .  '>' . $whatsapp_text . '</div>';
@@ -561,8 +537,6 @@ class TopTal_Social_Share {
       if($atts['pinterest'] == 1)
         $html .= '<div class="pinterest ' . $size . '"' . $pinterest_style . '>' . $pinterest_text . '</div>';
 
-      if($atts['google'] == 1)
-        $html .= '<div class="google-plus ' . $size . '"' . $google_style . '>' . $google_text . '</div>';
 
       if($atts['whatsapp'] == 1 && $this->toptal_ss_is_mobile())
         $html .= '<div class="whatsapp ' . $size . '"' . $whatsapp_style .  '>' . $whatsapp_text . '</div>';
@@ -605,7 +579,6 @@ class TopTal_Social_Share {
         'twitter'       => 0,
         'linkedin'      => 0,
         'pinterest'     => 0,
-        'google'        => 0,
         'whatsapp'      => 0,
     ), $atts );
 
@@ -640,7 +613,6 @@ class TopTal_Social_Share {
     delete_option('toptal_ss_twitter');
     delete_option('toptal_ss_linkedin');
     delete_option('toptal_ss_pinterest');
-    delete_option('toptal_ss_google');
     delete_option('toptal_ss_whatsapp');
 
     // VISIBILITY SETTINGS
