@@ -38,3 +38,5 @@ MIT
 ## Buy Me a Coffee
 
 If you find this plugin useful, consider [buying me a coffee](https://buymeacoffee.com/costinbotez).
+
+For more WordPress resources and plugins, visit [Nomad Developer](https://nomad-developer.co.uk/).

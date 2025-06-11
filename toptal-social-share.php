@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Author: Botez Costin
  * Version: 1.0
  * Requires PHP: 7.4
- * Author URI: https://ro.linkedin.com/in/costibotez
+ * Author URI: https://nomad-developer.co.uk/
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
