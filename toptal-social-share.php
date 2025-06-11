@@ -461,24 +461,24 @@ class TopTal_Social_Share {
     $style = intval(get_option('toptal_ss_appearance'));
     switch ($style) {
       case 1:
-        $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook icon"></span></a>';
-        $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter icon"></span></a>';
-        $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a>';
-        $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook icon"></span></a>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter icon"></span></a>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a>';
         break;
       case 2:
-        $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a>';
-        $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '">Twitter</a>';
-        $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a>';
-        $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a>';
-        $whatsapp_text  = '<a target="_blank" href="https://api.whatsapp.com/send?text=' . $url . '">WhatsApp</a>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '">Twitter</a>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '">WhatsApp</a>';
         break;
       case 3:
-        $facebook_text  = '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a>';
-        $twitter_text   = '<a target="_blank" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a>';
-        $linkedin_text  = '<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a>';
-        $pinterest_text = '<a target="_blank" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a>';
-        $whatsapp_text  = '<a target="_blank" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a>';
         break;
     }
 
