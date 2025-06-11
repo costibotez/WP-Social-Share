@@ -286,22 +286,22 @@ class TopTal_Social_Share {
 
   // CUSTOM COLOR SETTINGS CALLBACK
   function toptal_ss_facebook_colorpicker() { ?>
-    <input type="text" name="toptal_ss_facebook_color" value="<?php echo get_option('toptal_ss_facebook_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_facebook_color" value="<?php echo esc_attr( get_option('toptal_ss_facebook_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_twitter_colorpicker() { ?>
-    <input type="text" name="toptal_ss_twitter_color" value="<?php echo get_option('toptal_ss_twitter_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_twitter_color" value="<?php echo esc_attr( get_option('toptal_ss_twitter_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_linkedin_colorpicker() { ?>
-    <input type="text" name="toptal_ss_linkedin_color" value="<?php echo get_option('toptal_ss_linkedin_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_linkedin_color" value="<?php echo esc_attr( get_option('toptal_ss_linkedin_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_pinterest_colorpicker() { ?>
-    <input type="text" name="toptal_ss_pinterest_color" value="<?php echo get_option('toptal_ss_pinterest_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_pinterest_color" value="<?php echo esc_attr( get_option('toptal_ss_pinterest_color') ); ?>" class="color-field">
     <?php
   }
 
@@ -309,27 +309,27 @@ class TopTal_Social_Share {
   }
 
   function toptal_ss_whatsapp_colorpicker() { ?>
-    <input type="text" name="toptal_ss_whatsapp_color" value="<?php echo get_option('toptal_ss_whatsapp_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_whatsapp_color" value="<?php echo esc_attr( get_option('toptal_ss_whatsapp_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_facebook_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_facebook_bk_color" value="<?php echo get_option('toptal_ss_facebook_bk_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_facebook_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_facebook_bk_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_twitter_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_twitter_bk_color" value="<?php echo get_option('toptal_ss_twitter_bk_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_twitter_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_twitter_bk_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_linkedin_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_linkedin_bk_color" value="<?php echo get_option('toptal_ss_linkedin_bk_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_linkedin_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_linkedin_bk_color') ); ?>" class="color-field">
     <?php
   }
 
   function toptal_ss_pinterest_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_pinterest_bk_color" value="<?php echo get_option('toptal_ss_pinterest_bk_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_pinterest_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_pinterest_bk_color') ); ?>" class="color-field">
     <?php
   }
 
@@ -337,7 +337,7 @@ class TopTal_Social_Share {
   }
 
   function toptal_ss_whatsapp_bk_colorpicker() { ?>
-    <input type="text" name="toptal_ss_whatsapp_bk_color" value="<?php echo get_option('toptal_ss_whatsapp_bk_color'); ?>" class="color-field">
+    <input type="text" name="toptal_ss_whatsapp_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_whatsapp_bk_color') ); ?>" class="color-field">
     <?php
   }
 
@@ -451,11 +451,11 @@ class TopTal_Social_Share {
     $whatsapp_style  = "";
 
     if(get_option('toptal_ss_color') == 0) {
-      $facebook_style  = 'style="background-color:' . get_option('toptal_ss_facebook_bk_color') . '; color:' . get_option('toptal_ss_facebook_color') . '"';
-      $twitter_style   = 'style="background-color:' . get_option('toptal_ss_twitter_bk_color') . '; color:' . get_option('toptal_ss_twitter_color') . '"';
-      $linkedin_style  = 'style="background-color:' . get_option('toptal_ss_linkedin_bk_color') . '; color:' . get_option('toptal_ss_linkedin_color') . '"';
-      $pinterest_style = 'style="background-color:' . get_option('toptal_ss_pinterest_bk_color') . '; color:' . get_option('toptal_ss_pinterest_color') . '"';
-      $whatsapp_style  = 'style="background-color:' . get_option('toptal_ss_whatsapp_bk_color') . '; color:' . get_option('toptal_ss_whatsapp_color') . '"';
+      $facebook_style  = 'style="background-color:' . esc_attr( get_option('toptal_ss_facebook_bk_color') ) . '; color:' . esc_attr( get_option('toptal_ss_facebook_color') ) . '"';
+      $twitter_style   = 'style="background-color:' . esc_attr( get_option('toptal_ss_twitter_bk_color') ) . '; color:' . esc_attr( get_option('toptal_ss_twitter_color') ) . '"';
+      $linkedin_style  = 'style="background-color:' . esc_attr( get_option('toptal_ss_linkedin_bk_color') ) . '; color:' . esc_attr( get_option('toptal_ss_linkedin_color') ) . '"';
+      $pinterest_style = 'style="background-color:' . esc_attr( get_option('toptal_ss_pinterest_bk_color') ) . '; color:' . esc_attr( get_option('toptal_ss_pinterest_color') ) . '"';
+      $whatsapp_style  = 'style="background-color:' . esc_attr( get_option('toptal_ss_whatsapp_bk_color') ) . '; color:' . esc_attr( get_option('toptal_ss_whatsapp_color') ) . '"';
     }
 
     $style = intval(get_option('toptal_ss_appearance'));
