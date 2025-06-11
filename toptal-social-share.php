@@ -637,6 +637,3 @@ class TopTal_Social_Share {
   }
 }
 new TopTal_Social_Share();
-
-
-?>
