@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 /*
  * Plugin Name: TopTal Social Share
  * Description: Add various social networking share buttons to your website, including; Facebook, Twitter, Pinterest, LinkedIn and WhatsApp(mobile).
  * Author: Botez Costin
  * Version: 1.0
+ * Requires PHP: 7.4
  * Author URI: https://ro.linkedin.com/in/costibotez
  */
 
@@ -15,9 +17,25 @@ define( 'TOPTAL_SS_PLUGIN_DIR_URL', plugin_dir_url(__FILE__) );
 define( 'TOPTAL_SS_PLUGIN_PATH', plugin_basename(__FILE__));
 define( 'TOPTAL_SS_PLUGIN_DIR_ASSETS_URL', plugin_dir_url(__FILE__) . 'assets/');
 
+register_activation_hook(__FILE__, 'toptal_ss_activation');
+function toptal_ss_activation(): void {
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
+        deactivate_plugins(plugin_basename(__FILE__));
+        wp_die(
+            sprintf(
+                /* translators: %s: PHP version */
+                __('This plugin requires PHP 7.4 or higher. You are running version %s.', 'toptal-ss'),
+                PHP_VERSION
+            ),
+            __('Plugin Activation Error', 'toptal-ss'),
+            ['back_link' => true]
+        );
+    }
+}
+
 class TopTal_Social_Share {
 
-	function __construct() {
+	public function __construct() {
     add_action('wp_enqueue_scripts', 	   array($this, 'toptal_social_share_style'));
     add_action('admin_enqueue_scripts',  array($this, 'toptal_add_color_picker' ));
 	  add_action('admin_menu', 			       array($this, 'toptal_social_share_menu_item'));
@@ -34,7 +52,7 @@ class TopTal_Social_Share {
     register_uninstall_hook(__FILE__,    array('TopTal_Social_Share', 'toptal_plugin_uninstall'));
         }
 
-  function toptal_add_color_picker( $hook ) {
+  public function toptal_add_color_picker(string $hook): void {
     // enqueue color picker just on
     if($hook == 'settings_page_toptal_social_share') {
       // Add the color picker css file
@@ -44,7 +62,7 @@ class TopTal_Social_Share {
     }
   }
 
-        function toptal_social_share_style($hook) {
+        public function toptal_social_share_style(string $hook): void {
         wp_register_style('toptal-ss-style', TOPTAL_SS_PLUGIN_DIR_ASSETS_URL . 'css/style.css');
         wp_enqueue_style('toptal-ss-style');
 
@@ -56,11 +74,11 @@ class TopTal_Social_Share {
       wp_enqueue_script('toptal-ss-share-counts');
         }
 
-	function toptal_social_share_menu_item() {
+	public function toptal_social_share_menu_item(): void {
   	add_options_page('TopTal Social Share', 'TopTal Social Share', 'manage_options', 'toptal_social_share', array($this, 'toptal_social_share_page'));
 	}
 
-	function toptal_social_share_page() { ?>
+	public function toptal_social_share_page(): void { ?>
 		<div class="wrap">
       <h1><?php _e('TopTal Social Sharing Options', 'toptal-ss'); ?></h1>
       <form method="post" action="options.php">
@@ -74,7 +92,7 @@ class TopTal_Social_Share {
 		<?php
 	}
 
-	function toptal_add_body_class($body_class) {
+	public function toptal_add_body_class(array $body_class): array {
     if(get_option('toptal_ss_left_area') == 1)
       $body_class[] = 'toptal-ss-left-area';
 
@@ -583,7 +601,7 @@ class TopTal_Social_Share {
     return false;
   }
 
-  function toptal_ss_cb($atts) {
+  public function toptal_ss_cb(array $atts): string {
     global $post;
 
     $a = shortcode_atts( array(
@@ -598,14 +616,14 @@ class TopTal_Social_Share {
     return $this->toptal_social_html($post->ID, $a);
   }
 
-  function add_action_links ( $links ) {
+  public function add_action_links (array $links): array {
     $mylinks = array(
       '<a href="' . admin_url( 'options-general.php?page=toptal_social_share' ) . '">' . __('Settings', 'toptal-ss') .  '</a>',
     );
     return array_merge( $links, $mylinks );
   }
 
-  function toptal_float_area() {
+  public function toptal_float_area(): void {
     if (intval(get_option('toptal_ss_left_area')) !== 1) {
       return;
     }
@@ -620,7 +638,7 @@ class TopTal_Social_Share {
     echo $html;
   }
 
-  function toptal_update_share_count() {
+  public function toptal_update_share_count(): void {
     $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
     $network = isset($_POST['network']) ? sanitize_key($_POST['network']) : '';
     if (!$post_id || !in_array($network, array('facebook','twitter','linkedin','pinterest','whatsapp'))) {
@@ -642,7 +660,7 @@ class TopTal_Social_Share {
     wp_send_json_success($counts[$network]);
   }
 
-  static function toptal_plugin_uninstall() {
+  public static function toptal_plugin_uninstall(): void {
     // GENERAL SETTINGS
     delete_option('toptal_ss_facebook');
     delete_option('toptal_ss_twitter');
