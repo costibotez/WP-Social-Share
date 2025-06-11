@@ -139,33 +139,33 @@ class TopTal_Social_Share {
       if(get_option('toptal_ss_facebook') == 1) {
         add_settings_field('toptal_ss_facebook_bk_color',  __('Facebook Background Color:', 'toptal-ss'),  array($this, 'toptal_ss_facebook_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_facebook_color',  __('Facebook Font Color:', 'toptal-ss'),  array($this, 'toptal_ss_facebook_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_facebook_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_facebook_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_facebook_bk_color', 'sanitize_hex_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_facebook_color', 'sanitize_hex_color');
       }
       if(get_option('toptal_ss_twitter') == 1) {
         add_settings_field('toptal_ss_twitter_bk_color',   __('Twitter Background Color:', 'toptal-ss'),   array($this, 'toptal_ss_twitter_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_twitter_color',   __('Twitter Font Color:', 'toptal-ss'),   array($this, 'toptal_ss_twitter_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_twitter_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_twitter_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_twitter_bk_color', 'sanitize_hex_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_twitter_color', 'sanitize_hex_color');
       }
       if(get_option('toptal_ss_linkedin') == 1) {
         add_settings_field('toptal_ss_linkedin_bk_color',  __('LinkedIn Background Color:', 'toptal-ss'),  array($this, 'toptal_ss_linkedin_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_linkedin_color',  __('LinkedIn Font Color:', 'toptal-ss'),  array($this, 'toptal_ss_linkedin_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin_bk_color', 'sanitize_hex_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin_color', 'sanitize_hex_color');
       }
       if(get_option('toptal_ss_pinterest') == 1) {
         add_settings_field('toptal_ss_pinterest_bk_color', __('Pinterest Background Color:', 'toptal-ss'), array($this, 'toptal_ss_pinterest_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_pinterest_color', __('Pinterest Font Color:', 'toptal-ss'), array($this, 'toptal_ss_pinterest_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_bk_color', 'sanitize_hex_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_color', 'sanitize_hex_color');
       }
       }
       if(get_option('toptal_ss_whatsapp') == 1) {
         add_settings_field('toptal_ss_whatsapp_bk_color',  __('WhatsApp Background Color (mobile only):', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_whatsapp_color',  __('WhatsApp Font Color (mobile only):', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp_bk_color');
-        register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp_bk_color', 'sanitize_hex_color');
+        register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp_color', 'sanitize_hex_color');
       }
     }
 
