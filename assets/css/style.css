@@ -54,6 +54,43 @@
     border-color: #25d366;
 }
 
+.toptal-social-share-wrapper div.reddit {
+	background-color: #ff4500;
+}
+
+.toptal-social-share-wrapper div.reddit:hover {
+    color: #ff4500 !important;
+    background-color: #fff !important;
+    border-color: #ff4500;
+}
+
+.toptal-social-share-wrapper div.email {
+	background-color: #0073aa;
+}
+
+.toptal-social-share-wrapper div.email:hover {
+    color: #0073aa !important;
+    background-color: #fff !important;
+    border-color: #0073aa;
+}
+
+.toptal-social-share-wrapper div.copylink {
+	background-color: #555555;
+}
+
+.toptal-social-share-wrapper div.copylink:hover {
+    color: #555555 !important;
+    background-color: #fff !important;
+    border-color: #555555;
+}
+
+.toptal-social-share-wrapper div.copied,
+.toptal-social-share-wrapper div.copied:hover {
+    background-color: #2e7d32 !important;
+    color: #fff !important;
+    border-color: #2e7d32 !important;
+}
+
 .toptal-social-share-wrapper div {
 	padding: 5px;
 	color: #fff;
@@ -172,7 +209,9 @@ span[class*="fa-"]:not(.icon) {
 	    min-height: 92px;
 	}
 }
-@media (min-width: 440px){
+/* WhatsApp sharing only makes sense on touch devices; hiding it via a
+   pointer-based media query is reliable even behind full-page caches. */
+@media (hover: hover) and (pointer: fine) {
 	.toptal-social-share-wrapper .whatsapp{
 	    display: none !important;
 	}

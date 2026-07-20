@@ -4,7 +4,7 @@ TopTal Social Share is a simple WordPress plugin that adds social sharing button
 
 ## Features
 
-- Share links for Facebook, Twitter, LinkedIn, Pinterest and WhatsApp.
+- Share links for Facebook, Twitter, LinkedIn, Pinterest, WhatsApp, Reddit and Email, plus a copy-link button with clipboard feedback.
 - Tracks how many times each network is shared per post.
 - Optional floating share bar on the left side of the page.
 - Choose between icon only, text only or icon with text styles.
@@ -29,7 +29,16 @@ All attributes are optional. When omitted, the defaults from the settings page a
 
 ## Development
 
-The plugin code is located in `toptal-social-share.php` and assets under the `assets/` directory. JavaScript and CSS files follow basic WordPress coding standards and end with a newline.
+The plugin bootstrap is `toptal-social-share.php`; the code lives in `includes/` split by concern:
+
+- `class-toptal-ss-networks.php` — network registry (labels, icons, share endpoints). New networks are added here and picked up everywhere automatically; the list is filterable via `toptal_ss_networks`.
+- `class-toptal-ss-options.php` — settings storage in a single `toptal_ss_settings` array option, with defaults and a one-time migration from the 1.0 scalar options.
+- `class-toptal-ss-settings.php` — the admin settings screen.
+- `class-toptal-ss-renderer.php` — frontend markup, content/title/thumbnail filters, floating bar and shortcode.
+- `class-toptal-ss-assets.php` — conditional, versioned asset loading.
+- `class-toptal-ss-ajax.php` — the nonce-protected, throttled share-count endpoint.
+
+Assets are under `assets/`. JavaScript and CSS files follow basic WordPress coding standards and end with a newline.
 
 ## License
 
