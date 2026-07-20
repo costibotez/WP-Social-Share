@@ -183,6 +183,25 @@ $r = call_ajax($ajax); assert($r && !$r->ok && $r->status === 429, 'throttled');
 $_POST['network'] = 'twitter';
 $r = call_ajax($ajax); assert($r && $r->ok, 'different network not throttled');
 
+// ---- 6b. New networks ----------------------------------------------------
+$stored = get_option('toptal_ss_settings');
+$stored['networks']['reddit'] = 1;
+$stored['networks']['email'] = 1;
+$stored['networks']['copylink'] = 1;
+$stored['appearance'] = 3;
+update_option('toptal_ss_settings', $stored);
+TopTal_SS_Options::flush_cache();
+$html = $renderer->buttons_html(42);
+assert(strpos($html, 'reddit.com/submit?url=http%3A%2F%2F') !== false, 'reddit url encoded');
+assert(strpos($html, 'href="mailto:?body=http%3A%2F%2F') !== false, 'email mailto link');
+assert(preg_match('/<a[^>]*data-toptal-action="copy"[^>]*href="http:\/\/example\.test/', $html) === 1, 'copy link carries raw permalink and copy action');
+assert(preg_match('/<a[^>]*target="_blank"[^>]*data-toptal-action="copy"/', $html) === 0, 'copy link does not open a new tab');
+assert(strpos($html, 'fa-reddit') !== false && strpos($html, 'fa-envelope') !== false && strpos($html, 'fa-link') !== false, 'new network icons');
+
+// New networks are accepted by the AJAX whitelist automatically.
+$_POST = ['post_id' => 42, 'network' => 'reddit', 'nonce' => 'test-nonce'];
+$r = call_ajax($ajax); assert($r && $r->ok && $r->payload === 1, 'reddit share counted');
+
 // ---- 7. Fresh-install defaults -------------------------------------------
 $GLOBALS['__options'] = [];
 TopTal_SS_Options::flush_cache();

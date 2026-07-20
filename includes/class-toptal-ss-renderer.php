@@ -186,8 +186,16 @@ final class TopTal_SS_Renderer {
 					$inner = $icon . $label;
 			}
 
+			$attrs = '';
+			if ( ! isset( $network['new_tab'] ) || false !== $network['new_tab'] ) {
+				$attrs .= ' target="_blank" rel="noopener noreferrer"';
+			}
+			if ( isset( $network['action'] ) && 'copy' === $network['action'] ) {
+				$attrs .= ' data-toptal-action="copy"';
+			}
+
 			$html .= '<div class="' . esc_attr( $key . ' ' . $size ) . '"' . $style . '>'
-				. '<a target="_blank" rel="noopener noreferrer" href="' . esc_url( $share_url ) . '">' . $inner . '</a>'
+				. '<a' . $attrs . ' href="' . esc_url( $share_url ) . '">' . $inner . '</a>'
 				. '<span class="share-count">' . $count . '</span>'
 				. '</div>';
 		}

@@ -4,7 +4,7 @@ TopTal Social Share is a simple WordPress plugin that adds social sharing button
 
 ## Features
 
-- Share links for Facebook, Twitter, LinkedIn, Pinterest and WhatsApp.
+- Share links for Facebook, Twitter, LinkedIn, Pinterest, WhatsApp, Reddit and Email, plus a copy-link button with clipboard feedback.
 - Tracks how many times each network is shared per post.
 - Optional floating share bar on the left side of the page.
 - Choose between icon only, text only or icon with text styles.
