@@ -34,10 +34,10 @@ function toptal_ss_activation(): void {
 		wp_die(
 			sprintf(
 				/* translators: %s: PHP version */
-				__( 'This plugin requires PHP 7.4 or higher. You are running version %s.', 'toptal-ss' ),
-				PHP_VERSION
+				esc_html__( 'This plugin requires PHP 7.4 or higher. You are running version %s.', 'toptal-ss' ),
+				esc_html( PHP_VERSION )
 			),
-			__( 'Plugin Activation Error', 'toptal-ss' ),
+			esc_html__( 'Plugin Activation Error', 'toptal-ss' ),
 			array( 'back_link' => true )
 		);
 	}

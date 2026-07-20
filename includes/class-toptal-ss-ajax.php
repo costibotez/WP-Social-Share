@@ -1,8 +1,9 @@
 <?php
-declare(strict_types=1);
 /**
  * AJAX endpoint that records share-button clicks in post meta.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -1,9 +1,10 @@
 <?php
-declare(strict_types=1);
 /**
  * Single-option settings storage with defaults and one-time migration
  * from the legacy scalar options used by version 1.0.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -75,11 +76,11 @@ final class TopTal_SS_Options {
 
 		$defaults = self::defaults();
 
-		$defaults['networks']['facebook']           = 1;
-		$defaults['networks']['twitter']            = 1;
-		$defaults['networks']['linkedin']           = 1;
-		$defaults['post_types']['post']             = 1;
-		$defaults['post_types']['page']             = 1;
+		$defaults['networks']['facebook']            = 1;
+		$defaults['networks']['twitter']             = 1;
+		$defaults['networks']['linkedin']            = 1;
+		$defaults['post_types']['post']              = 1;
+		$defaults['post_types']['page']              = 1;
 		$defaults['locations']['after_post_content'] = 1;
 
 		add_option( self::OPTION_KEY, $defaults );
@@ -95,7 +96,7 @@ final class TopTal_SS_Options {
 		}
 
 		foreach ( $defaults['colors'] as $key => $pair ) {
-			$stored_pair               = ( isset( $settings['colors'][ $key ] ) && is_array( $settings['colors'][ $key ] ) ) ? $settings['colors'][ $key ] : array();
+			$stored_pair                = ( isset( $settings['colors'][ $key ] ) && is_array( $settings['colors'][ $key ] ) ) ? $settings['colors'][ $key ] : array();
 			$settings['colors'][ $key ] = array_merge( $pair, $stored_pair );
 		}
 
@@ -123,19 +124,19 @@ final class TopTal_SS_Options {
 		$settings = self::defaults();
 
 		foreach ( TopTal_SS_Networks::keys() as $key ) {
-			$settings['networks'][ $key ] = get_option( 'toptal_ss_' . $key ) == 1 ? 1 : 0;
+			$settings['networks'][ $key ] = (int) get_option( 'toptal_ss_' . $key ) === 1 ? 1 : 0;
 			$settings['colors'][ $key ]   = array(
 				'bg'   => (string) get_option( 'toptal_ss_' . $key . '_bk_color', '' ),
 				'text' => (string) get_option( 'toptal_ss_' . $key . '_color', '' ),
 			);
 		}
 
-		$settings['post_types']['post'] = get_option( 'toptal_ss_posts' ) == 1 ? 1 : 0;
-		$settings['post_types']['page'] = get_option( 'toptal_ss_page' ) == 1 ? 1 : 0;
-		$settings['post_types']['cpt']  = get_option( 'toptal_ss_cpt' ) == 1 ? 1 : 0;
+		$settings['post_types']['post'] = (int) get_option( 'toptal_ss_posts' ) === 1 ? 1 : 0;
+		$settings['post_types']['page'] = (int) get_option( 'toptal_ss_page' ) === 1 ? 1 : 0;
+		$settings['post_types']['cpt']  = (int) get_option( 'toptal_ss_cpt' ) === 1 ? 1 : 0;
 
 		foreach ( self::LOCATIONS as $location ) {
-			$settings['locations'][ $location ] = get_option( 'toptal_ss_' . $location ) == 1 ? 1 : 0;
+			$settings['locations'][ $location ] = (int) get_option( 'toptal_ss_' . $location ) === 1 ? 1 : 0;
 		}
 
 		$size             = strtolower( (string) get_option( 'toptal_ss_size' ) );
@@ -144,7 +145,7 @@ final class TopTal_SS_Options {
 		$appearance             = intval( get_option( 'toptal_ss_appearance' ) );
 		$settings['appearance'] = ( $appearance >= 1 && $appearance <= 3 ) ? $appearance : 3;
 
-		$settings['default_colors'] = get_option( 'toptal_ss_color' ) == 1 ? 1 : 0;
+		$settings['default_colors'] = (int) get_option( 'toptal_ss_color' ) === 1 ? 1 : 0;
 
 		add_option( self::OPTION_KEY, $settings );
 		self::delete_legacy();

@@ -1,10 +1,11 @@
 <?php
-declare(strict_types=1);
 /**
  * Admin settings screen. All fields write into the single
  * `toptal_ss_settings` array option and are generated from the network
  * registry, so new networks appear automatically.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -204,7 +205,7 @@ final class TopTal_SS_Settings {
 			printf(
 				'<label><input type="radio" name="%s" value="%d" %s /> <span>%s</span></label><br>',
 				esc_attr( TopTal_SS_Options::OPTION_KEY . '[appearance]' ),
-				$value,
+				(int) $value,
 				checked( intval( $settings['appearance'] ), $value, false ),
 				esc_html( $label )
 			);
@@ -257,7 +258,7 @@ final class TopTal_SS_Settings {
 
 		foreach ( $clean['colors'] as $key => $_pair ) {
 			foreach ( array( 'bg', 'text' ) as $field ) {
-				$color = sanitize_hex_color( (string) ( $input['colors'][ $key ][ $field ] ?? '' ) );
+				$color                             = sanitize_hex_color( (string) ( $input['colors'][ $key ][ $field ] ?? '' ) );
 				$clean['colors'][ $key ][ $field ] = is_string( $color ) ? $color : '';
 			}
 		}

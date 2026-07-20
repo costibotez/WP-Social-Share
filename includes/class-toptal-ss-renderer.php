@@ -1,9 +1,10 @@
 <?php
-declare(strict_types=1);
 /**
  * Frontend rendering: builds the share-button markup and injects it via
  * the content/title/thumbnail filters, the floating bar and the shortcode.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -14,7 +15,7 @@ final class TopTal_SS_Renderer {
 	public function __construct() {
 		add_filter( 'the_content', array( $this, 'inject_after_content' ) );
 		add_filter( 'the_title', array( $this, 'inject_below_title' ), 99, 1 );
-		add_filter( 'post_thumbnail_html', array( $this, 'inject_inside_featured_image' ), 99, 5 );
+		add_filter( 'post_thumbnail_html', array( $this, 'inject_inside_featured_image' ), 99, 2 );
 		add_action( 'wp_footer', array( $this, 'render_float_area' ), 10 );
 		add_filter( 'body_class', array( $this, 'add_body_class' ) );
 		add_shortcode( 'toptal_ss', array( $this, 'shortcode' ) );
@@ -74,7 +75,7 @@ final class TopTal_SS_Renderer {
 		return $title;
 	}
 
-	public function inject_inside_featured_image( $html_image, $post_id, $post_thumbnail_id, $size, $attr ) {
+	public function inject_inside_featured_image( $html_image, $post_id ) {
 		global $post;
 		if ( ! $post instanceof WP_Post || ! in_the_loop() || ! self::post_type_enabled( get_post_type( $post ) ) ) {
 			return $html_image;
@@ -82,7 +83,7 @@ final class TopTal_SS_Renderer {
 
 		$settings = TopTal_SS_Options::get();
 		if ( intval( $settings['locations']['inside_featured_image'] ) === 1 ) {
-			$html_image .= $this->buttons_html( $post->ID );
+			$html_image .= $this->buttons_html( (int) $post_id );
 		}
 
 		return $html_image;
@@ -102,10 +103,12 @@ final class TopTal_SS_Renderer {
 			return;
 		}
 
-		echo str_replace(
-			'toptal-social-share-wrapper',
-			'toptal-social-share-wrapper float-area',
-			$this->buttons_html( (int) $post_id )
+		echo wp_kses_post(
+			str_replace(
+				'toptal-social-share-wrapper',
+				'toptal-social-share-wrapper float-area',
+				$this->buttons_html( (int) $post_id )
+			)
 		);
 	}
 

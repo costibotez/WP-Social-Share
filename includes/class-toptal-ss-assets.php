@@ -1,8 +1,9 @@
 <?php
-declare(strict_types=1);
 /**
  * Registers and conditionally enqueues frontend and admin assets.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

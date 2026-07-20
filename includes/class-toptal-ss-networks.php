@@ -1,10 +1,11 @@
 <?php
-declare(strict_types=1);
 /**
  * Network registry: every supported network with its label, icon and
  * share endpoint. Adding a network here is all that's needed for it to
  * appear in the settings screen, the renderer and the AJAX whitelist.
  */
+
+declare(strict_types=1);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
