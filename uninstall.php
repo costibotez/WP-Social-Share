@@ -11,7 +11,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 $toptal_ss_options = array(
-	// General settings.
+	// Current settings (single array option since 1.1.0).
+	'toptal_ss_settings',
+	// Legacy 1.0 scalar options (kept for installs that never migrated).
 	'toptal_ss_facebook',
 	'toptal_ss_twitter',
 	'toptal_ss_linkedin',

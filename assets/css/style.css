@@ -172,7 +172,9 @@ span[class*="fa-"]:not(.icon) {
 	    min-height: 92px;
 	}
 }
-@media (min-width: 440px){
+/* WhatsApp sharing only makes sense on touch devices; hiding it via a
+   pointer-based media query is reliable even behind full-page caches. */
+@media (hover: hover) and (pointer: fine) {
 	.toptal-social-share-wrapper .whatsapp{
 	    display: none !important;
 	}
