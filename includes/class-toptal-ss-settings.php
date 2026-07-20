@@ -23,8 +23,8 @@ final class TopTal_SS_Settings {
 
 	public function add_menu_item(): void {
 		add_options_page(
-			__( 'TopTal Social Share', 'toptal-ss' ),
-			__( 'TopTal Social Share', 'toptal-ss' ),
+			__( 'WP Social Share', 'toptal-ss' ),
+			__( 'WP Social Share', 'toptal-ss' ),
 			'manage_options',
 			self::PAGE,
 			array( $this, 'render_page' )
@@ -39,7 +39,7 @@ final class TopTal_SS_Settings {
 	public function render_page(): void {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'TopTal Social Sharing Options', 'toptal-ss' ); ?></h1>
+			<h1><?php esc_html_e( 'WP Social Sharing Options', 'toptal-ss' ); ?></h1>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'toptal_ss_settings_all' );
@@ -61,6 +61,7 @@ final class TopTal_SS_Settings {
 		add_settings_section( 'toptal_ss_general_section', __( 'General Options', 'toptal-ss' ), null, self::PAGE );
 		add_settings_section( 'toptal_ss_visibility_section', __( 'Visibility', 'toptal-ss' ), null, self::PAGE );
 		add_settings_section( 'toptal_ss_locations_section', __( 'Locations', 'toptal-ss' ), null, self::PAGE );
+		add_settings_section( 'toptal_ss_order_section', __( 'Button Order', 'toptal-ss' ), null, self::PAGE );
 		add_settings_section( 'toptal_ss_size_section', __( 'Button Size', 'toptal-ss' ), null, self::PAGE );
 		add_settings_section( 'toptal_ss_appearance_section', __( 'Button Appearance', 'toptal-ss' ), null, self::PAGE );
 		add_settings_section( 'toptal_ss_color_section', __( 'Button Color', 'toptal-ss' ), null, self::PAGE );
@@ -123,6 +124,7 @@ final class TopTal_SS_Settings {
 			);
 		}
 
+		add_settings_field( 'toptal_ss_order', __( 'Order:', 'toptal-ss' ), array( $this, 'render_order_list' ), self::PAGE, 'toptal_ss_order_section' );
 		add_settings_field( 'toptal_ss_size', __( 'Size:', 'toptal-ss' ), array( $this, 'render_size_select' ), self::PAGE, 'toptal_ss_size_section' );
 		add_settings_field( 'toptal_ss_appearance', __( 'Style:', 'toptal-ss' ), array( $this, 'render_appearance_radio' ), self::PAGE, 'toptal_ss_appearance_section' );
 
@@ -170,6 +172,26 @@ final class TopTal_SS_Settings {
 			checked( 1, $value, false ),
 			esc_html__( 'Check for Yes', 'toptal-ss' )
 		);
+	}
+
+	public function render_order_list(): void {
+		$settings = TopTal_SS_Options::get();
+		$networks = TopTal_SS_Networks::all();
+
+		echo '<ul id="toptal-ss-order-list">';
+		foreach ( $settings['order'] as $key ) {
+			if ( ! isset( $networks[ $key ] ) ) {
+				continue;
+			}
+			printf(
+				'<li class="toptal-ss-order-item"><span class="dashicons dashicons-menu" aria-hidden="true"></span> %s<input type="hidden" name="%s" value="%s"></li>',
+				esc_html( $networks[ $key ]['label'] ),
+				esc_attr( TopTal_SS_Options::OPTION_KEY . '[order][]' ),
+				esc_attr( $key )
+			);
+		}
+		echo '</ul>';
+		echo '<p class="description">' . esc_html__( 'Drag to reorder the share buttons.', 'toptal-ss' ) . '</p>';
 	}
 
 	public function render_size_select(): void {
@@ -247,6 +269,9 @@ final class TopTal_SS_Settings {
 				$clean[ $section ][ $key ] = ( intval( $input[ $section ][ $key ] ?? 0 ) === 1 ) ? 1 : 0;
 			}
 		}
+
+		$order          = is_array( $input['order'] ?? null ) ? array_map( 'strval', $input['order'] ) : array();
+		$clean['order'] = TopTal_SS_Options::normalize_order( $order );
 
 		$size          = strtolower( (string) ( $input['size'] ?? '' ) );
 		$clean['size'] = in_array( $size, array( 'small', 'medium', 'large' ), true ) ? $size : 'small';

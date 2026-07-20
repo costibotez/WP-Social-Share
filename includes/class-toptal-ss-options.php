@@ -24,6 +24,7 @@ final class TopTal_SS_Options {
 
 		return array(
 			'networks'       => array_fill_keys( $network_keys, 0 ),
+			'order'          => $network_keys,
 			'post_types'     => array(
 				'post' => 0,
 				'page' => 0,
@@ -100,7 +101,25 @@ final class TopTal_SS_Options {
 			$settings['colors'][ $key ] = array_merge( $pair, $stored_pair );
 		}
 
+		$stored_order      = ( isset( $settings['order'] ) && is_array( $settings['order'] ) ) ? array_map( 'strval', $settings['order'] ) : array();
+		$settings['order'] = self::normalize_order( $stored_order );
+
 		return array_merge( $defaults, $settings );
+	}
+
+	/**
+	 * Keep only known network keys (in their stored order) and append any
+	 * networks missing from the stored order, so newly added networks
+	 * appear at the end instead of disappearing.
+	 *
+	 * @param string[] $order Stored order, possibly stale or invalid.
+	 * @return string[]
+	 */
+	public static function normalize_order( array $order ): array {
+		$known = TopTal_SS_Networks::keys();
+		$valid = array_values( array_intersect( $order, $known ) );
+
+		return array_values( array_unique( array_merge( $valid, $known ) ) );
 	}
 
 	/**

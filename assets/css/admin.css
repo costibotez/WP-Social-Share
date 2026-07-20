@@ -1,0 +1,28 @@
+#toptal-ss-order-list {
+	max-width: 260px;
+	margin: 0;
+}
+
+#toptal-ss-order-list .toptal-ss-order-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	margin: 4px 0;
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	border-radius: 3px;
+	cursor: move;
+	user-select: none;
+}
+
+#toptal-ss-order-list .toptal-ss-order-item .dashicons {
+	color: #787c82;
+}
+
+#toptal-ss-order-list .toptal-ss-order-placeholder {
+	border: 1px dashed #ccd0d4;
+	background: #f6f7f7;
+	height: 36px;
+	margin: 4px 0;
+}
