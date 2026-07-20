@@ -49,7 +49,6 @@ class TopTal_Social_Share {
     add_action('wp_footer',              array($this, 'toptal_float_area'), 10);
     add_action('wp_ajax_toptal_update_share_count', array($this, 'toptal_update_share_count'));
     add_action('wp_ajax_nopriv_toptal_update_share_count', array($this, 'toptal_update_share_count'));
-    register_uninstall_hook(__FILE__,    array('TopTal_Social_Share', 'toptal_plugin_uninstall'));
         }
 
   public function toptal_add_color_picker(string $hook): void {
@@ -70,7 +69,10 @@ class TopTal_Social_Share {
       wp_enqueue_style('toptal-ss-fontawesome');
 
       wp_register_script('toptal-ss-share-counts', TOPTAL_SS_PLUGIN_DIR_ASSETS_URL . 'js/share-counts.js', array('jquery'), false, true);
-      wp_localize_script('toptal-ss-share-counts', 'toptalShareCount', array('ajax_url' => admin_url('admin-ajax.php')));
+      wp_localize_script('toptal-ss-share-counts', 'toptalShareCount', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce'    => wp_create_nonce('toptal_ss_share_count'),
+      ));
       wp_enqueue_script('toptal-ss-share-counts');
         }
 
@@ -103,7 +105,6 @@ class TopTal_Social_Share {
   	add_settings_section('toptal_ss_general_section', __('General Options', 'toptal-ss'), null, 'toptal_social_share');
     add_settings_section('toptal_ss_visibility_section', __('Visibility', 'toptal-ss'), null, 'toptal_social_share');
     add_settings_section('toptal_ss_locations_section', __('Locations', 'toptal-ss'), null, 'toptal_social_share');
-    // add_settings_section('toptal_ss_order_section', __('Order', 'toptal-ss'), null, 'toptal_social_share');
     add_settings_section('toptal_ss_size_section', __('Button Size', 'toptal-ss'), null, 'toptal_social_share');
     add_settings_section('toptal_ss_appearance_section', __('Button Appearance', 'toptal-ss'), null, 'toptal_social_share');
     add_settings_section('toptal_ss_color_section', __('Button Color', 'toptal-ss'), null, 'toptal_social_share');
@@ -125,29 +126,6 @@ class TopTal_Social_Share {
     add_settings_field('toptal_ss_left_area', __('Float on left area?', 'toptal-ss'), array($this, 'toptal_ss_left_area_checkbox'), 'toptal_social_share', 'toptal_ss_locations_section');
     add_settings_field('toptal_ss_after_post_content', __('After the post content?', 'toptal-ss'), array($this, 'toptal_ss_after_post_content_checkbox'), 'toptal_social_share', 'toptal_ss_locations_section');
     add_settings_field('toptal_ss_inside_featured_image', __('Inside the featured image?', 'toptal-ss'), array($this, 'toptal_ss_inside_featured_image_checkbox'), 'toptal_social_share', 'toptal_ss_locations_section');
-
-    // // ORDER
-    // if(get_option('toptal_ss_facebook') == 1) {
-    //   add_settings_field('toptal_ss_facebook_order',  __('Facebook', 'toptal-ss'),  array($this, 'toptal_ss_facebook_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_facebook_order', 'intval');
-    // }
-    // if(get_option('toptal_ss_twitter') == 1) {
-    //   add_settings_field('toptal_ss_twitter_order',   __('Twitter', 'toptal-ss'),   array($this, 'toptal_ss_twitter_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_twitter_order', 'intval');
-    // }
-    // if(get_option('toptal_ss_linkedin') == 1) {
-    //   add_settings_field('toptal_ss_linkedin_order',  __('LinkedIn', 'toptal-ss'),  array($this, 'toptal_ss_linkedin_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin_order', 'intval');
-    // }
-    // if(get_option('toptal_ss_pinterest') == 1) {
-    //   add_settings_field('toptal_ss_pinterest_order', __('Pinterest', 'toptal-ss'), array($this, 'toptal_ss_pinterest_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_order', 'intval');
-    // }
-    // }
-    // if(get_option('toptal_ss_whatsapp') == 1) {
-    //   add_settings_field('toptal_ss_whatsapp_order',  __('WhatsApp (mobile only)', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_order'), 'toptal_social_share', 'toptal_ss_order_section');
-    //   register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp_order', 'intval');
-    // }
 
     // SIZE SETTINGS
     add_settings_field('toptal_ss_size', __('Small?', 'toptal-ss'), array($this, 'toptal_ss_select'), 'toptal_social_share', 'toptal_ss_size_section');
@@ -193,32 +171,46 @@ class TopTal_Social_Share {
     }
 
     // GENERAL SETTINGS
-  	register_setting('toptal_ss_settings_all', 'toptal_ss_facebook', 'intval');
-  	register_setting('toptal_ss_settings_all', 'toptal_ss_twitter', 'intval');
-  	register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin', 'intval');
-  	register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp', 'intval');
+  	register_setting('toptal_ss_settings_all', 'toptal_ss_facebook', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+  	register_setting('toptal_ss_settings_all', 'toptal_ss_twitter', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+  	register_setting('toptal_ss_settings_all', 'toptal_ss_linkedin', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+  	register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_whatsapp', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
 
     // VISIBILITY SETTINGS
-    register_setting('toptal_ss_settings_all', 'toptal_ss_posts', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_page', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_cpt', 'intval');
+    register_setting('toptal_ss_settings_all', 'toptal_ss_posts', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_page', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_cpt', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
 
     // LOCATIONS SETTINGS
-    register_setting('toptal_ss_settings_all', 'toptal_ss_below_post_title', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_left_area', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_after_post_content', 'intval');
-    register_setting('toptal_ss_settings_all', 'toptal_ss_inside_featured_image', 'intval');
+    register_setting('toptal_ss_settings_all', 'toptal_ss_below_post_title', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_left_area', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_after_post_content', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
+    register_setting('toptal_ss_settings_all', 'toptal_ss_inside_featured_image', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
 
     // SIZE SETTINGS
-    register_setting('toptal_ss_settings_all', 'toptal_ss_size', 'strval');
+    register_setting('toptal_ss_settings_all', 'toptal_ss_size', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_size')));
 
     // APPEARANCE SETTINGS
-    register_setting('toptal_ss_settings_all', 'toptal_ss_appearance', 'intval');
+    register_setting('toptal_ss_settings_all', 'toptal_ss_appearance', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_appearance')));
 
     // COLOR SETTING
-    register_setting('toptal_ss_settings_all', 'toptal_ss_color', 'intval');
+    register_setting('toptal_ss_settings_all', 'toptal_ss_color', array('sanitize_callback' => array($this, 'toptal_ss_sanitize_checkbox')));
 	}
+
+  // SANITIZE CALLBACKS
+  public function toptal_ss_sanitize_checkbox($value): int {
+    return intval($value) === 1 ? 1 : 0;
+  }
+
+  public function toptal_ss_sanitize_size($value): string {
+    return in_array($value, array('Small', 'Medium', 'Large'), true) ? $value : 'Small';
+  }
+
+  public function toptal_ss_sanitize_appearance($value): int {
+    $value = intval($value);
+    return ($value >= 1 && $value <= 3) ? $value : 3;
+  }
 
   // GENERAL SETTINGS CALLBACK
 	function toptal_ss_facebook_checkbox() { ?>
@@ -456,7 +448,13 @@ class TopTal_Social_Share {
   function toptal_social_html($post_id, $atts = array()) {
     $just_icon = (intval(get_option('toptal_ss_appearance')) == 1) ? 'just_icon' : '';
     $html = '<div class="toptal-social-share-wrapper ' . $just_icon . '" data-post-id="' . esc_attr($post_id) . '">';
-    $url = esc_url(get_permalink($post_id));
+
+    $permalink     = rawurlencode(get_permalink($post_id));
+    $facebook_url  = esc_url('https://www.facebook.com/sharer/sharer.php?u=' . $permalink);
+    $twitter_url   = esc_url('https://twitter.com/intent/tweet?url=' . $permalink);
+    $linkedin_url  = esc_url('https://www.linkedin.com/shareArticle?mini=true&url=' . $permalink);
+    $pinterest_url = esc_url('https://pinterest.com/pin/create/button/?url=' . $permalink);
+    $whatsapp_url  = esc_url('https://api.whatsapp.com/send?text=' . $permalink);
 
     $size = 'small';
 
@@ -485,26 +483,26 @@ class TopTal_Social_Share {
     $style = intval(get_option('toptal_ss_appearance'));
     switch ($style) {
       case 1:
-        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook icon"></span></a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '"><span class="fa fa-twitter icon"></span></a><span class="share-count">' . $twitter_count . '</span>';
-        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a><span class="share-count">' . $linkedin_count . '</span>';
-        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a><span class="share-count">' . $pinterest_count . '</span>';
-        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp icon"></span></a><span class="share-count">' . $whatsapp_count . '</span>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $facebook_url . '"><span class="fa fa-facebook icon"></span></a><span class="share-count">' . $facebook_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="' . $twitter_url . '"><span class="fa fa-twitter icon"></span></a><span class="share-count">' . $twitter_count . '</span>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $linkedin_url . '"><span class="fa fa-linkedin icon"></span></a><span class="share-count">' . $linkedin_count . '</span>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="' . $pinterest_url . '"><span class="fa fa-pinterest icon"></span></a><span class="share-count">' . $pinterest_count . '</span>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $whatsapp_url . '"><span class="fa fa-whatsapp icon"></span></a><span class="share-count">' . $whatsapp_count . '</span>';
         break;
       case 2:
-        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '">Twitter</a><span class="share-count">' . $twitter_count . '</span>';
-        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
-        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
-        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '">WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $facebook_url . '">Facebook</a><span class="share-count">' . $facebook_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="' . $twitter_url . '">Twitter</a><span class="share-count">' . $twitter_count . '</span>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $linkedin_url . '">LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="' . $pinterest_url . '">Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $whatsapp_url . '">WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
         break;
       case 3:
       default:
-        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a><span class="share-count">' . $twitter_count . '</span>';
-        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
-        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
-        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
+        $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $facebook_url . '"><span class="fa fa-facebook"></span>Facebook</a><span class="share-count">' . $facebook_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="' . $twitter_url . '"><span class="fa fa-twitter"></span>Twitter</a><span class="share-count">' . $twitter_count . '</span>';
+        $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $linkedin_url . '"><span class="fa fa-linkedin"></span>LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
+        $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="' . $pinterest_url . '"><span class="fa fa-pinterest"></span>Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="' . $whatsapp_url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
         break;
     }
 
@@ -609,6 +607,12 @@ class TopTal_Social_Share {
         'whatsapp'      => 0,
     ), $atts );
 
+    $size = strtolower((string) $a['size']);
+    $a['size'] = in_array($size, array('small', 'medium', 'large'), true) ? $size : 'small';
+    foreach (array('facebook', 'twitter', 'linkedin', 'pinterest', 'whatsapp') as $network) {
+      $a[$network] = intval($a[$network]) === 1 ? 1 : 0;
+    }
+
     return $this->toptal_social_html($post->ID, $a);
   }
 
@@ -640,11 +644,27 @@ class TopTal_Social_Share {
   }
 
   public function toptal_update_share_count(): void {
+    check_ajax_referer('toptal_ss_share_count', 'nonce');
+
     $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
     $network = isset($_POST['network']) ? sanitize_key($_POST['network']) : '';
-    if (!$post_id || !in_array($network, array('facebook','twitter','linkedin','pinterest','whatsapp'))) {
-      wp_send_json_error();
+    if (!$post_id || !in_array($network, array('facebook','twitter','linkedin','pinterest','whatsapp'), true)) {
+      wp_send_json_error(null, 400);
     }
+
+    // Only count shares of published, publicly viewable posts.
+    if (get_post_status($post_id) !== 'publish' || !is_post_type_viewable(get_post_type($post_id))) {
+      wp_send_json_error(null, 404);
+    }
+
+    // Throttle: one increment per client / post / network per minute.
+    $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+    $throttle_key = 'toptal_ss_tt_' . md5($ip . '|' . $post_id . '|' . $network);
+    if (get_transient($throttle_key)) {
+      wp_send_json_error(null, 429);
+    }
+    set_transient($throttle_key, 1, MINUTE_IN_SECONDS);
+
     $counts = get_post_meta($post_id, 'toptal_ss_share_counts', true);
     if (!is_array($counts)) {
       $counts = array();
@@ -659,35 +679,6 @@ class TopTal_Social_Share {
     $counts['total']++;
     update_post_meta($post_id, 'toptal_ss_share_counts', $counts);
     wp_send_json_success($counts[$network]);
-  }
-
-  public static function toptal_plugin_uninstall(): void {
-    // GENERAL SETTINGS
-    delete_option('toptal_ss_facebook');
-    delete_option('toptal_ss_twitter');
-    delete_option('toptal_ss_linkedin');
-    delete_option('toptal_ss_pinterest');
-    delete_option('toptal_ss_whatsapp');
-
-    // VISIBILITY SETTINGS
-    delete_option('toptal_ss_posts');
-    delete_option('toptal_ss_page');
-    delete_option('toptal_ss_cpt');
-
-    // LOCATIONS SETTINGS
-    delete_option('toptal_ss_below_post_title');
-    delete_option('toptal_ss_left_area');
-    delete_option('toptal_ss_after_post_content');
-    delete_option('toptal_ss_inside_featured_image');
-
-    // SIZE SETTINGS
-    delete_option('toptal_ss_size');
-
-    // APPEARANCE SETTINGS
-    delete_option('toptal_ss_appearance');
-
-    // COLOR SETTING
-    delete_option('toptal_ss_color');
   }
 }
 new TopTal_Social_Share();

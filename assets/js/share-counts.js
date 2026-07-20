@@ -5,7 +5,7 @@ jQuery(function($){
     if(!network || !postId) {
       return;
     }
-    $.post(toptalShareCount.ajax_url, {action:'toptal_update_share_count', network:network, post_id:postId});
+    $.post(toptalShareCount.ajax_url, {action:'toptal_update_share_count', network:network, post_id:postId, nonce:toptalShareCount.nonce});
   });
 });
 
