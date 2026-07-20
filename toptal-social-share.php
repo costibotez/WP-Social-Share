@@ -4,7 +4,7 @@ declare(strict_types=1);
  * Plugin Name: TopTal Social Share
  * Description: Add various social networking share buttons to your website, including; Facebook, Twitter, Pinterest, LinkedIn and WhatsApp(mobile).
  * Author: Botez Costin
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires PHP: 7.4
  * Author URI: https://nomad-developer.co.uk/
  * Text Domain: toptal-ss
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-define( 'TOPTAL_SS_VERSION', '1.1.0' );
+define( 'TOPTAL_SS_VERSION', '1.2.0' );
 define( 'TOPTAL_SS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'TOPTAL_SS_PLUGIN_PATH', plugin_basename( __FILE__ ) );
 define( 'TOPTAL_SS_PLUGIN_DIR_ASSETS_URL', plugin_dir_url( __FILE__ ) . 'assets/' );

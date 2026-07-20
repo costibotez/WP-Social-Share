@@ -164,10 +164,13 @@ final class TopTal_SS_Renderer {
 		$just_icon = ( 1 === $appearance ) ? ' just_icon' : '';
 		$html      = '<div class="toptal-social-share-wrapper' . $just_icon . '" data-post-id="' . esc_attr( (string) $post_id ) . '">';
 
-		foreach ( $networks as $key => $network ) {
-			if ( intval( $enabled[ $key ] ?? 0 ) !== 1 ) {
+		$order = TopTal_SS_Options::normalize_order( is_array( $settings['order'] ?? null ) ? $settings['order'] : array() );
+
+		foreach ( $order as $key ) {
+			if ( ! isset( $networks[ $key ] ) || intval( $enabled[ $key ] ?? 0 ) !== 1 ) {
 				continue;
 			}
+			$network = $networks[ $key ];
 
 			$share_url = TopTal_SS_Networks::share_url( $key, $permalink );
 			$count     = intval( $counts[ $key ] ?? 0 );
