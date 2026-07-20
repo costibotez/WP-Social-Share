@@ -23,8 +23,8 @@ final class TopTal_SS_Settings {
 
 	public function add_menu_item(): void {
 		add_options_page(
-			__( 'TopTal Social Share', 'toptal-ss' ),
-			__( 'TopTal Social Share', 'toptal-ss' ),
+			__( 'WP Social Share', 'toptal-ss' ),
+			__( 'WP Social Share', 'toptal-ss' ),
 			'manage_options',
 			self::PAGE,
 			array( $this, 'render_page' )
@@ -39,7 +39,7 @@ final class TopTal_SS_Settings {
 	public function render_page(): void {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'TopTal Social Sharing Options', 'toptal-ss' ); ?></h1>
+			<h1><?php esc_html_e( 'WP Social Sharing Options', 'toptal-ss' ); ?></h1>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'toptal_ss_settings_all' );

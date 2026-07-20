@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 /*
- * Plugin Name: TopTal Social Share
- * Description: Add various social networking share buttons to your website, including; Facebook, Twitter, Pinterest, LinkedIn and WhatsApp(mobile).
+ * Plugin Name: WP Social Share
+ * Description: Lightweight, private social sharing buttons for posts, pages and custom post types — Facebook, Twitter/X, LinkedIn, Pinterest, WhatsApp (mobile), Reddit, Email and a copy-link button, with per-post share counts and drag-and-drop ordering.
  * Author: Botez Costin
  * Version: 1.2.0
  * Requires PHP: 7.4
