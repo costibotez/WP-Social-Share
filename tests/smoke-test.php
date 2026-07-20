@@ -202,6 +202,34 @@ assert(strpos($html, 'fa-reddit') !== false && strpos($html, 'fa-envelope') !== 
 $_POST = ['post_id' => 42, 'network' => 'reddit', 'nonce' => 'test-nonce'];
 $r = call_ajax($ajax); assert($r && $r->ok && $r->payload === 1, 'reddit share counted');
 
+// ---- 6c. Button ordering -------------------------------------------------
+assert(TopTal_SS_Options::defaults()['order'] === TopTal_SS_Networks::keys(), 'default order follows registry');
+
+// normalize_order: keeps stored order, drops unknown keys, appends missing.
+$normalized = TopTal_SS_Options::normalize_order(['whatsapp', 'bogus', 'facebook']);
+assert(array_slice($normalized, 0, 2) === ['whatsapp', 'facebook'], 'stored order preserved, unknown dropped');
+assert(count($normalized) === count(TopTal_SS_Networks::keys()), 'missing networks appended');
+
+// Renderer respects configured order.
+$stored = get_option('toptal_ss_settings');
+$stored['order'] = ['twitter', 'facebook'];
+update_option('toptal_ss_settings', $stored);
+TopTal_SS_Options::flush_cache();
+$html = $renderer->buttons_html(42);
+assert(strpos($html, 'class="twitter') < strpos($html, 'class="facebook'), 'twitter rendered before facebook');
+assert(strpos($html, 'class="reddit') !== false, 'networks missing from stored order still render (appended)');
+
+// Sanitizer normalizes a posted order.
+$clean = $settings_ui->sanitize_settings(['order' => ['email', 'nope', 'twitter']]);
+assert(array_slice($clean['order'], 0, 2) === ['email', 'twitter'], 'sanitized order keeps valid keys in order');
+assert(count($clean['order']) === count(TopTal_SS_Networks::keys()), 'sanitized order is complete');
+
+// Settings stored without an order key (pre-1.2 installs) get the default appended.
+unset($stored['order']);
+update_option('toptal_ss_settings', $stored);
+TopTal_SS_Options::flush_cache();
+assert(TopTal_SS_Options::get()['order'] === TopTal_SS_Networks::keys(), 'missing order falls back to registry order');
+
 // ---- 7. Fresh-install defaults -------------------------------------------
 $GLOBALS['__options'] = [];
 TopTal_SS_Options::flush_cache();

@@ -2,6 +2,12 @@
     $(document).ready(function () {
         $('.color-field').wpColorPicker();
 
+        $('#toptal-ss-order-list').sortable({
+            cursor: 'move',
+            axis: 'y',
+            placeholder: 'toptal-ss-order-placeholder'
+        });
+
         var defaultColors = $('input[name="toptal_ss_settings[default_colors]"]');
         var colorRows = defaultColors.closest('tr').nextAll();
 

@@ -11,6 +11,7 @@ TopTal Social Share is a simple WordPress plugin that adds social sharing button
 - Supports small, medium and large button sizes.
 - Customise button colours via the WordPress colour picker.
 - Enable or disable buttons globally or per post type.
+- Drag-and-drop ordering of the share buttons.
 - Shortcode `[toptal_ss]` for manual placement.
 
 ## Installation

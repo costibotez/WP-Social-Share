@@ -76,6 +76,7 @@ final class TopTal_SS_Assets {
 			return;
 		}
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_script( 'toptal-ss-admin', TOPTAL_SS_PLUGIN_DIR_ASSETS_URL . 'js/scripts.js', array( 'jquery', 'wp-color-picker' ), TOPTAL_SS_VERSION, true );
+		wp_enqueue_style( 'toptal-ss-admin', TOPTAL_SS_PLUGIN_DIR_ASSETS_URL . 'css/admin.css', array(), TOPTAL_SS_VERSION );
+		wp_enqueue_script( 'toptal-ss-admin', TOPTAL_SS_PLUGIN_DIR_ASSETS_URL . 'js/scripts.js', array( 'jquery', 'wp-color-picker', 'jquery-ui-sortable' ), TOPTAL_SS_VERSION, true );
 	}
 }
