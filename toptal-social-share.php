@@ -184,7 +184,6 @@ class TopTal_Social_Share {
         register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_bk_color', 'sanitize_hex_color');
         register_setting('toptal_ss_settings_all', 'toptal_ss_pinterest_color', 'sanitize_hex_color');
       }
-      }
       if(get_option('toptal_ss_whatsapp') == 1) {
         add_settings_field('toptal_ss_whatsapp_bk_color',  __('WhatsApp Background Color (mobile only):', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_bk_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
         add_settings_field('toptal_ss_whatsapp_color',  __('WhatsApp Font Color (mobile only):', 'toptal-ss'),   array($this, 'toptal_ss_whatsapp_colorpicker'), 'toptal_social_share', 'toptal_ss_color_section');
@@ -239,9 +238,6 @@ class TopTal_Social_Share {
 
 	function toptal_ss_pinterest_checkbox() { ?>
     <input type="checkbox" name="toptal_ss_pinterest" value="1" <?php checked(1, get_option('toptal_ss_pinterest'), true); ?> /> <?php _e('Check for Yes', 'toptal-ss'); ?>
- 		<?php
-	}
-
  		<?php
 	}
 
@@ -329,9 +325,6 @@ class TopTal_Social_Share {
     <?php
   }
 
-    <?php
-  }
-
   function toptal_ss_whatsapp_colorpicker() { ?>
     <input type="text" name="toptal_ss_whatsapp_color" value="<?php echo esc_attr( get_option('toptal_ss_whatsapp_color') ); ?>" class="color-field">
     <?php
@@ -354,9 +347,6 @@ class TopTal_Social_Share {
 
   function toptal_ss_pinterest_bk_colorpicker() { ?>
     <input type="text" name="toptal_ss_pinterest_bk_color" value="<?php echo esc_attr( get_option('toptal_ss_pinterest_bk_color') ); ?>" class="color-field">
-    <?php
-  }
-
     <?php
   }
 
@@ -389,6 +379,7 @@ class TopTal_Social_Share {
    */
 	function toptal_add_social_share_icons($content) {
   	global $post;
+    if(!$post instanceof WP_Post) return $content;
     $html = '';
 
     if($this->pre_validate($content, $post->ID) !== TRUE) return $content;
@@ -408,6 +399,7 @@ class TopTal_Social_Share {
    */
   function toptal_add_social_share_icons_title($title) {
     global $post;
+    if(!$post instanceof WP_Post) return $title;
     if(in_the_loop()) {
       $html = '';
 
@@ -430,6 +422,7 @@ class TopTal_Social_Share {
    */
   function toptal_add_social_share_icons_image($html_image, $post_id, $post_thumbnail_id, $size, $attr ) {
     global $post;
+    if(!$post instanceof WP_Post) return $html_image;
 
     if(in_the_loop()) {
       $html = '';
@@ -493,20 +486,22 @@ class TopTal_Social_Share {
     switch ($style) {
       case 1:
         $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook icon"></span></a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter icon"></span></a><span class="share-count">' . $twitter_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '"><span class="fa fa-twitter icon"></span></a><span class="share-count">' . $twitter_count . '</span>';
         $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin icon"></span></a><span class="share-count">' . $linkedin_count . '</span>';
         $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest icon"></span></a><span class="share-count">' . $pinterest_count . '</span>';
+        $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp icon"></span></a><span class="share-count">' . $whatsapp_count . '</span>';
         break;
       case 2:
         $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '">Twitter</a><span class="share-count">' . $twitter_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '">Twitter</a><span class="share-count">' . $twitter_count . '</span>';
         $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '">LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
         $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '">Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
         $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '">WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
         break;
       case 3:
+      default:
         $facebook_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '"><span class="fa fa-facebook"></span>Facebook</a><span class="share-count">' . $facebook_count . '</span>';
-        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/home?status=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a><span class="share-count">' . $twitter_count . '</span>';
+        $twitter_text   = '<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=' . $url . '"><span class="fa fa-twitter"></span>Twitter</a><span class="share-count">' . $twitter_count . '</span>';
         $linkedin_text  = '<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&url=' . $url . '"><span class="fa fa-linkedin"></span>LinkedIn</a><span class="share-count">' . $linkedin_count . '</span>';
         $pinterest_text = '<a target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=' . $url . '"><span class="fa fa-pinterest"></span>Pinterest</a><span class="share-count">' . $pinterest_count . '</span>';
         $whatsapp_text  = '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?text=' . $url . '"><span class="fa fa-whatsapp"></span>WhatsApp</a><span class="share-count">' . $whatsapp_count . '</span>';
@@ -603,6 +598,7 @@ class TopTal_Social_Share {
 
   public function toptal_ss_cb(array $atts): string {
     global $post;
+    if(!$post instanceof WP_Post) return '';
 
     $a = shortcode_atts( array(
         'size'          => 'small',
@@ -628,7 +624,12 @@ class TopTal_Social_Share {
       return;
     }
 
-    $html = $this->toptal_social_html(get_the_ID());
+    $post_id = get_the_ID();
+    if (!$post_id) {
+      return;
+    }
+
+    $html = $this->toptal_social_html($post_id);
     $html = str_replace(
       'toptal-social-share-wrapper',
       'toptal-social-share-wrapper float-area',
